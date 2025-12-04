@@ -17,7 +17,7 @@ export default class FileRenderer {
 	 * @param file File to rename
 	 */
 	async ChangeFileName(file: TFile) {
-		const dateName = moment(Date()).format("DD-MMM-YYYY HH-mm-ss");
+		const dateName = moment(Date()).format("YYYY-MM-DD HH-mm-ss");
 		const dirname = path.dirname(file.path);
 		const newPath = path.join(dirname, `${dateName}.${file.extension}`);
 
