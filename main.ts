@@ -6,11 +6,13 @@ import { DEFAULT_TEMPLATE } from "src/util/constants";
 interface MeetingNotesSettings {
 	meetingNoteFolder: string;
 	template: string;
+	dateFormat: string;
 }
 
 const DEFAULT_SETTINGS: MeetingNotesSettings = {
 	meetingNoteFolder: "MeetingNotes",
 	template: DEFAULT_TEMPLATE,
+	dateFormat: "DD-MMM-YYYY HH-mm-ss",
 };
 
 export default class MeetingNotes extends Plugin {
@@ -39,7 +41,8 @@ export default class MeetingNotes extends Plugin {
 				await this.fileService.createFileCreationCallback(
 					file,
 					this.settings.meetingNoteFolder,
-					this.settings.template
+					this.settings.template,
+					this.settings.dateFormat
 				);
 			}
 		});
@@ -103,6 +106,21 @@ class MeetingNotesSettingTab extends PluginSettingTab {
 					.then((text) => {
 						text.inputEl.style.width = "100%";
 						text.inputEl.rows = 10;
+					})
+			);
+
+		new Setting(containerEl)
+			.setName("Date Format")
+			.setDesc(
+				"Format for the meeting note filename (uses moment.js format). Default: DD-MMM-YYYY HH-mm-ss"
+			)
+			.addText((text) =>
+				text
+					.setPlaceholder("DD-MMM-YYYY HH-mm-ss")
+					.setValue(this.plugin.settings.dateFormat)
+					.onChange(async (value) => {
+						this.plugin.settings.dateFormat = value;
+						await this.plugin.saveSettings();
 					})
 			);
 	}

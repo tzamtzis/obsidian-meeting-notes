@@ -12,12 +12,13 @@ export default class FileRenderer {
 	}
 
 	/**
-	 * Renames a given File to the format DD-MMM-YYYY HH-mm-ss
+	 * Renames a given File to the specified date format
 	 *
 	 * @param file File to rename
+	 * @param dateFormat Date format string (moment.js format)
 	 */
-	async ChangeFileName(file: TFile) {
-		const dateName = moment(Date()).format("YYYY-MM-DD HH-mm-ss");
+	async ChangeFileName(file: TFile, dateFormat: string) {
+		const dateName = moment(Date()).format(dateFormat);
 		const dirname = path.dirname(file.path);
 		const newPath = path.join(dirname, `${dateName}.${file.extension}`);
 

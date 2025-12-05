@@ -13,15 +13,17 @@ export default class FileService {
 	 * @param file Newly created file
 	 * @param meetingFolderName Name of the user defined folder
 	 * @param template Template string obtained from the user settings
+	 * @param dateFormat Date format string for the filename (moment.js format)
 	 */
 	async createFileCreationCallback(
 		file: TFile,
 		meetingFolderName: string,
-		template: string
+		template: string,
+		dateFormat: string
 	) {
 		if (this.isNewMeetingNote(file, meetingFolderName)) {
 			await this.fileRenderer.FillNewNote(file, template);
-			await this.fileRenderer.ChangeFileName(file);
+			await this.fileRenderer.ChangeFileName(file, dateFormat);
 		}
 	}
 
